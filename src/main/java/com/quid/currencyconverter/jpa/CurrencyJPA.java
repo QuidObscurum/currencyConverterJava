@@ -19,7 +19,7 @@ public class CurrencyJPA implements Serializable {
     @Column(name = "toCurrency", nullable = false, length = 3)
     private String toCurrency;
 
-    @Column(name = "rate")
+    @Column(name = "rate", precision=19, scale=4)
     private BigDecimal rate;
 
     public CurrencyJPA(){}
