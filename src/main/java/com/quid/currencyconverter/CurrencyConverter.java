@@ -1,10 +1,12 @@
 package com.quid.currencyconverter;
 
+import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.dbService.DBService;
 import com.quid.currencyconverter.dbService.DBServiceImpl;
 import com.quid.currencyconverter.myUtils.InvalidInputException;
 import com.quid.currencyconverter.service.ConverterService;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
@@ -13,9 +15,7 @@ import java.util.Scanner;
 
 public class CurrencyConverter {
     public static void main (String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext(
-                "context.xml"
-        );
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         // getting via class is bad, should get via interface - ?
         DBService dbService = context.getBean("dbService", DBServiceImpl.class);
 
