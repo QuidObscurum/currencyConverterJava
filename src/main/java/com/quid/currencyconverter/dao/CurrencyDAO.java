@@ -8,49 +8,35 @@ import org.hibernate.criterion.Restrictions;
 import java.util.List;
 
 public class CurrencyDAO {
-    private final Session session;
 
-    public CurrencyDAO(Session session){
-        this.session = session;
+    public CurrencyJPA read(Session session, long id){
+        return session.get(CurrencyJPA.class, id);
     }
 
-    public CurrencyJPA read(long id){
-        CurrencyJPA currency = session.get(CurrencyJPA.class, id);
-        session.close();
-        return currency;
-    }
-
-    public CurrencyJPA readByCurrencies(String fromCurr, String toCurr) {
+    public CurrencyJPA readByCurrencies(Session session, String fromCurr, String toCurr) {
         Criteria criteria = session.createCriteria(CurrencyJPA.class);
-        CurrencyJPA currency = (CurrencyJPA) criteria
+        return (CurrencyJPA) criteria
                 .add(Restrictions.eq("fromCurrency", fromCurr))
                 .add(Restrictions.eq("toCurrency", toCurr))
                 .uniqueResult();
-        session.close();
-        return currency;
     }
 
     @SuppressWarnings("unchecked")
-    public List<CurrencyJPA> readAll() {
+    public List<CurrencyJPA> readAll(Session session) {
         Criteria criteria = session.createCriteria(CurrencyJPA.class);
-        List<CurrencyJPA> currencyList = criteria.list();
-        session.close();
-        return currencyList;
+        return (List<CurrencyJPA>) criteria.list();
     }
 
-    public void save(CurrencyJPA dataSet){
+    public void save(Session session, CurrencyJPA dataSet){
         session.save(dataSet);
     }
 
-    public void update(CurrencyJPA dataSet) {
+    public void update(Session session, CurrencyJPA dataSet) {
         session.update(dataSet);
     }
 
-    public void delete(CurrencyJPA dataSet) {
+    public void delete(Session session, CurrencyJPA dataSet) {
         session.delete(dataSet);
     }
 
-    public void closeSession() {
-        session.close();
-    }
 }

@@ -32,10 +32,7 @@ public class CurrencyJPA implements Serializable {
     }
 
     public CurrencyJPA(String fromCurr, String toCurr, BigDecimal rate){
-        this.setId(-1L);
-        this.setFromCurrency(fromCurr);
-        this.setToCurrency(toCurr);
-        this.setRate(rate);
+        this(-1L, fromCurr, toCurr, rate);
     }
 
     public void setRate(BigDecimal rate) {

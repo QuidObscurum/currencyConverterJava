@@ -5,9 +5,9 @@ import com.quid.currencyconverter.jpa.CurrencyJPA;
 import java.util.List;
 
 public interface DBService {
-    void save(CurrencyJPA dataSet);
+    void save(CurrencyJPA currencyJPA);
 
-    void update(CurrencyJPA dataSet);
+    void update(CurrencyJPA currencyJPA);
 
     CurrencyJPA read(long id);
 

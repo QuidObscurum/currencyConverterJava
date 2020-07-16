@@ -1,7 +1,6 @@
 package com.quid.currencyconverter.service;
 
 import com.quid.currencyconverter.dbService.DBService;
-import com.quid.currencyconverter.dbService.DBServiceImpl;
 import com.quid.currencyconverter.myUtils.InvalidInputException;
 
 import java.math.BigDecimal;
@@ -12,10 +11,14 @@ import java.util.List;
 
 
 public class ConverterService {
-    private final DBService dbService;
+    private DBService dbService;
 
-    public ConverterService() {
-        this.dbService = new DBServiceImpl();
+//    public ConverterService() {
+//    }
+
+    public ConverterService(DBService dbService) {
+        this.dbService = dbService;
+        System.out.println("this.dbService hash " + this.dbService.hashCode());
     }
 
     public final static List<String> allowedCurrenciesList = new ArrayList<>(
@@ -32,7 +35,7 @@ public class ConverterService {
     }
 
     private void setInputValue(BigDecimal inputValue) {
-        this.inputValue = inputValue;
+        this.inputValue = inputValue.setScale(4, RoundingMode.HALF_UP);
     }
 
     public String getFromCurrency() {
@@ -62,12 +65,12 @@ public class ConverterService {
             BigDecimal rate = dbService
                     .readByCurrencies(fromCurrency, toCurrency)
                     .getRate();
-            return inputValue.multiply(rate).setScale(4, RoundingMode.CEILING);
+            return inputValue.multiply(rate).setScale(4, RoundingMode.HALF_UP);
         }
             BigDecimal rate = dbService
                     .readByCurrencies(toCurrency, fromCurrency)
                     .getRate();
-            return inputValue.divide(rate,4, RoundingMode.CEILING);
+            return inputValue.divide(rate,4, RoundingMode.HALF_UP);
     }
 
     public void processQuery(List<String> args) throws InvalidInputException {

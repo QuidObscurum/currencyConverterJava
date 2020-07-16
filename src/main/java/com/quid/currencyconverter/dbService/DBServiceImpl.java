@@ -26,17 +26,22 @@ public class DBServiceImpl implements DBService {
 //        configuration.setProperty()
     }
 
+    private CurrencyDAO currencyDAO;
+
+    public DBServiceImpl(CurrencyDAO currencyDAO) {
+        this.currencyDAO = currencyDAO;
+    }
+
     @Override
-    public void save(CurrencyJPA dataSet) {
+    public void save(CurrencyJPA currencyJPA) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            CurrencyDAO dao = new CurrencyDAO(session);
 //            Oracle documentation:
 //            In a try-with-resources statement, any catch or finally block
 //            is run after the resources declared have been closed.
 //            => in case of Exception, rollback before session is closed
             try {
-                dao.save(dataSet);
+                currencyDAO.save(session, currencyJPA);
                 transaction.commit();
             } catch (Exception e) {
                 System.err.println(e.getMessage());
@@ -46,12 +51,11 @@ public class DBServiceImpl implements DBService {
     }
 
     @Override
-    public void update(CurrencyJPA dataSet) {
+    public void update(CurrencyJPA currencyJPA) {
         try (Session session = sessionFactory.openSession()){
-            CurrencyDAO dao = new CurrencyDAO(session);
             Transaction t = session.beginTransaction();
             try {
-                dao.update(dataSet);
+                currencyDAO.update(session, currencyJPA);
                 t.commit();
             } catch (Exception e){
                 System.err.println(e.getMessage());
@@ -62,23 +66,24 @@ public class DBServiceImpl implements DBService {
 
     @Override
     public CurrencyJPA read(long id){
-        Session session = sessionFactory.openSession();
-        CurrencyDAO dao = new CurrencyDAO(session);
-        return dao.read(id);
+        try (Session session = sessionFactory.openSession()) {
+            return currencyDAO.read(session, id);
+        }
     }
 
     @Override
     public CurrencyJPA readByCurrencies(String fromCurr, String toCurr) {
-        Session session = sessionFactory.openSession();
-        CurrencyDAO dao = new CurrencyDAO(session);
-        return dao.readByCurrencies(fromCurr, toCurr);
+        try (Session session = sessionFactory.openSession()) {
+            return currencyDAO.readByCurrencies(session, fromCurr, toCurr);
+        }
     }
 
     @Override
     public List<CurrencyJPA> readAll() {
-        Session session = sessionFactory.openSession();
-        CurrencyDAO dao = new CurrencyDAO(session);
-        return dao.readAll();
+        try (Session session = sessionFactory.openSession())
+        {
+            return currencyDAO.readAll(session);
+        }
     }
 
     @Override
