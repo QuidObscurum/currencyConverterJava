@@ -7,7 +7,6 @@ import com.quid.currencyconverter.myUtils.InvalidInputException;
 import com.quid.currencyconverter.service.ConverterService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;

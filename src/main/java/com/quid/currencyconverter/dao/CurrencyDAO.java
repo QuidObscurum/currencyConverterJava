@@ -4,9 +4,11 @@ import com.quid.currencyconverter.jpa.CurrencyJPA;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class CurrencyDAO {
 
     public CurrencyJPA read(Session session, long id){

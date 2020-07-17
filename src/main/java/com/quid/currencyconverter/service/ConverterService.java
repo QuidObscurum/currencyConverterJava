@@ -2,6 +2,7 @@ package com.quid.currencyconverter.service;
 
 import com.quid.currencyconverter.dbService.DBService;
 import com.quid.currencyconverter.myUtils.InvalidInputException;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
+@Service("converter")
 public class ConverterService {
     private DBService dbService;
 

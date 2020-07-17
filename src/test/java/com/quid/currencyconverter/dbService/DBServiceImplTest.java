@@ -2,6 +2,7 @@ package com.quid.currencyconverter.dbService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration("file:src/main/resources/context.xml")
+@ContextConfiguration(classes=ApplicationConfig.class)
 class DBServiceImplTest {
     @Autowired
     private DBService dbService;
