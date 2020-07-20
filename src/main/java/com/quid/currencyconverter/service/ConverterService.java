@@ -1,7 +1,8 @@
 package com.quid.currencyconverter.service;
 
-import com.quid.currencyconverter.dbService.DBService;
-import com.quid.currencyconverter.myUtils.InvalidInputException;
+import com.quid.currencyconverter.dbservice.DBService;
+import com.quid.currencyconverter.myutils.InvalidInputException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -13,15 +14,8 @@ import java.util.List;
 
 @Service("converter")
 public class ConverterService {
+    @Autowired
     private DBService dbService;
-
-//    public ConverterService() {
-//    }
-
-    public ConverterService(DBService dbService) {
-        this.dbService = dbService;
-        System.out.println("this.dbService hash " + this.dbService.hashCode());
-    }
 
     public final static List<String> allowedCurrenciesList = new ArrayList<>(
             Arrays.asList("BYN", "USD", "EUR", "RUB")
@@ -69,10 +63,10 @@ public class ConverterService {
                     .getRate();
             return inputValue.multiply(rate).setScale(4, RoundingMode.HALF_UP);
         }
-            BigDecimal rate = dbService
-                    .readByCurrencies(toCurrency, fromCurrency)
-                    .getRate();
-            return inputValue.divide(rate,4, RoundingMode.HALF_UP);
+        BigDecimal rate = dbService
+                .readByCurrencies(toCurrency, fromCurrency)
+                .getRate();
+        return inputValue.divide(rate,4, RoundingMode.HALF_UP);
     }
 
     public void processQuery(List<String> args) throws InvalidInputException {

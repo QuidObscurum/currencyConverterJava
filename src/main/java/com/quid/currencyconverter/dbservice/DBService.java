@@ -1,4 +1,4 @@
-package com.quid.currencyconverter.dbService;
+package com.quid.currencyconverter.dbservice;
 
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 
@@ -14,6 +14,8 @@ public interface DBService {
     CurrencyJPA readByCurrencies(String from, String to);
 
     List<CurrencyJPA> readAll();
+
+    void delete(CurrencyJPA currencyJPA);
 
     void shutdown();
 }

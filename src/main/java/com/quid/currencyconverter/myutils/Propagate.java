@@ -1,6 +1,6 @@
-package com.quid.currencyconverter.myUtils;
+package com.quid.currencyconverter.myutils;
 
-import com.quid.currencyconverter.dbService.DBService;
+import com.quid.currencyconverter.dbservice.DBService;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 
 import java.math.BigDecimal;
