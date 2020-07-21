@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,9 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes=ApplicationConfig.class)
-class DBServiceImplTest {
+class CurrencyDBServiceImplTest {
     @Autowired
-    private DBService dbService;
+    private CurrencyDBService dbService;
 
 //    @BeforeEach
 //    void setUp() {

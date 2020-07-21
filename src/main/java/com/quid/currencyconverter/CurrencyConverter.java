@@ -2,9 +2,9 @@ package com.quid.currencyconverter;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.config.HibernateConfig;
-import com.quid.currencyconverter.dbservice.DBService;
-import com.quid.currencyconverter.dbservice.DBServiceImpl;
+import com.quid.currencyconverter.myutils.Helper;
 import com.quid.currencyconverter.myutils.InvalidInputException;
+import com.quid.currencyconverter.service.ConvertQuery;
 import com.quid.currencyconverter.service.ConverterService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -14,24 +14,22 @@ import java.util.Scanner;
 
 public class CurrencyConverter {
     public static void main (String[] args) {
+        Helper helper = new Helper();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         context.register(HibernateConfig.class);
-        // getting via class is bad, should get via interface - ?
-        DBService dbService = context.getBean("dbService", DBServiceImpl.class);
-
         ConverterService converter = context.getBean("converter", ConverterService.class);
-        System.out.println(Arrays.toString(context.getBeanDefinitionNames()));
-        System.out.println(context.getBeanDefinitionCount());
+//        System.out.println(Arrays.toString(context.getBeanDefinitionNames()));
+//        System.out.println(context.getBeanDefinitionCount());
 
-        CurrencyConverter.printRules(ConverterService.inputFormat);
+        helper.printRules();
 
         if (args.length > 0){
             try {
-                converter.processQuery(Arrays.asList(args));
+                ConvertQuery query = ConvertQuery.getQuery(Arrays.asList(args));
+                System.out.println(converter.convert(query) + " " + query.getToCurrency());
             } catch (InvalidInputException e) {
                 System.err.println(e.getMessage());
             }
-            System.out.println(converter.convert() + " " + converter.getToCurrency());
         }
 
         boolean run = true;
@@ -42,21 +40,13 @@ public class CurrencyConverter {
                 run = false;
             } else {
                 try {
-                    converter.processQuery(queryArgs);
+                    ConvertQuery query = ConvertQuery.getQuery(queryArgs);
+                    System.out.println(converter.convert(query) + " " + query.getToCurrency());
                 } catch (InvalidInputException e) {
                     System.err.println(e.getMessage());
-                    continue;
                 }
-                System.out.println(converter.convert() + " " + converter.getToCurrency());
             }
         }
-    }
-
-    public static void printRules(String format) {
-        System.out.println("If you want to buy 10 BYN with US dollars, " +
-                "\nthe input format is: " + format);
-        System.out.println("Allowed currencies: " + ConverterService.allowedCurrenciesList);
-        System.out.println("Type 'exit' to finish.");
     }
 
     public static List<String> getUserInput() {

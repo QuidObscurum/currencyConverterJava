@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service("dbService")
-public class DBServiceImpl implements DBService {
+public class CurrencyDBServiceImpl implements CurrencyDBService {
 
     @Autowired
     private CurrencyDAO currencyDAO;

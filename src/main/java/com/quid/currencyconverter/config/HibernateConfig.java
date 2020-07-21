@@ -1,7 +1,7 @@
 package com.quid.currencyconverter.config;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import com.quid.currencyconverter.dbservice.DBServiceImpl;
+import com.quid.currencyconverter.dbservice.CurrencyDBServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -46,7 +46,7 @@ public class HibernateConfig {
 
     private final Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
-        try (InputStream in = DBServiceImpl.class
+        try (InputStream in = CurrencyDBServiceImpl.class
                 .getClassLoader()
                 .getResourceAsStream("hibernate.properties")) {
             hibernateProperties.load(in);

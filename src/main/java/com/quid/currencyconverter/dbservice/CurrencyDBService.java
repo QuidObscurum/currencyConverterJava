@@ -4,7 +4,7 @@ import com.quid.currencyconverter.jpa.CurrencyJPA;
 
 import java.util.List;
 
-public interface DBService {
+public interface CurrencyDBService {
     void save(CurrencyJPA currencyJPA);
 
     void update(CurrencyJPA currencyJPA);

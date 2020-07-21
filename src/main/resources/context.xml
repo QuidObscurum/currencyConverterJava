@@ -12,7 +12,7 @@
         <constructor-arg name="dbService" ref="dbService"/>
     </bean>
     <bean id="dbService"
-          class="com.quid.currencyconverter.dbservice.DBServiceImpl">
+          class="com.quid.currencyconverter.dbservice.CurrencyDBServiceImpl">
         <constructor-arg name="currencyDAO" ref="currencyDAO"/>
     </bean>
     <bean id="currencyDAO"

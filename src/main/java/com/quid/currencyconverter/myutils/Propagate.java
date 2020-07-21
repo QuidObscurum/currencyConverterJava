@@ -1,13 +1,13 @@
 package com.quid.currencyconverter.myutils;
 
-import com.quid.currencyconverter.dbservice.DBService;
+import com.quid.currencyconverter.dbservice.CurrencyDBService;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 
 import java.math.BigDecimal;
 
 public class Propagate {
 
-    public static void run(DBService dbService) {
+    public static void run(CurrencyDBService dbService) {
         dbService.save(new CurrencyJPA("RUB", "BYN", new BigDecimal("0.033882")));
         dbService.save(new CurrencyJPA("USD", "BYN", new BigDecimal("2.4440")));
         dbService.save(new CurrencyJPA("USD", "RUB", new BigDecimal("71.5500")));
