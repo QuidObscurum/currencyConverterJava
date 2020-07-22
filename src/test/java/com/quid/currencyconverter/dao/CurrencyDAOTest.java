@@ -1,6 +1,7 @@
 package com.quid.currencyconverter.dao;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
+import com.quid.currencyconverter.config.HibernateConfig;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes=ApplicationConfig.class)
+@ContextConfiguration(classes= {ApplicationConfig.class, HibernateConfig.class})
 class CurrencyDAOTest {
     @Autowired
     private CurrencyDAO currencyDAO;

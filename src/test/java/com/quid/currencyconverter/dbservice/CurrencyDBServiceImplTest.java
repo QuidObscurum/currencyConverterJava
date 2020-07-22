@@ -3,6 +3,7 @@ package com.quid.currencyconverter.dbservice;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
+import com.quid.currencyconverter.config.HibernateConfig;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes=ApplicationConfig.class)
+@ContextConfiguration(classes= {ApplicationConfig.class, HibernateConfig.class})
 class CurrencyDBServiceImplTest {
     @Autowired
     private CurrencyDBService dbService;
