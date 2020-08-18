@@ -1,97 +1,132 @@
 package com.quid.currencyconverter.dbservice;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.config.HibernateConfig;
+import com.quid.currencyconverter.dao.CurrencyRepository;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static com.quid.currencyconverter.myutils.CurrencyCode.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {ApplicationConfig.class, HibernateConfig.class})
-class CurrencyDBServiceImplTest {
+public class CurrencyDBServiceImplTest {
     @Autowired
     private CurrencyDBService dbService;
 
-//    @BeforeEach
-//    void setUp() {
-//        this d
-//    }
+    @Autowired
+    private CurrencyRepository currencyRepository;
 
-//    @AfterEach
-//    void tearDown() {
-//    }
+    CurrencyJPA setUpCurrencyJPA;
+
+    @Before
+    public void setUp() {
+        setUpCurrencyJPA = dbService.save(new CurrencyJPA(USD.toString(), "AUD", new BigDecimal("1.4300")));
+    }
+
+    @After
+    public void tearDown() {
+        currencyRepository.deleteByToCurrency("AUD");
+    }
 
     @Test
-    void shouldSave() {
-        CurrencyJPA currency = new CurrencyJPA("USD", "AUD", new BigDecimal("1.4300"));
+    public void shouldSave() {
 
-        dbService.save(currency);
+        // given
+        long initialCount = currencyRepository.count();
+        System.out.println(initialCount);
+        CurrencyJPA currency = new CurrencyJPA(USD.toString(), "AUD", new BigDecimal("1.4300"));
 
-        CurrencyJPA currencyJPA = dbService.readByCurrencies("USD", "AUD");
-        assertEquals(currency, currencyJPA);
+        // when
+        CurrencyJPA savedCurrency = dbService.save(currency);
+
+        // then
+        assertThat(currency).isEqualToIgnoringGivenFields(savedCurrency, "id");
+        long finalCount = currencyRepository.count();
+        System.out.println(finalCount);
+        assertThat(finalCount).isGreaterThan(initialCount);
+        System.out.println(savedCurrency);
+    }
+
+    @Test
+    public void shouldUpdate() {
+
+        // given
+        BigDecimal oldRate = setUpCurrencyJPA.getRate();
+        Long oldId = setUpCurrencyJPA.getId();
+        List<CurrencyJPA> all1 = dbService.readAll();
+        all1.forEach(System.out::println);
+        long initialCount = currencyRepository.count();
+
+        // when
+        setUpCurrencyJPA.setRate(setUpCurrencyJPA.getRate().add(new BigDecimal("5")));
+        CurrencyJPA updatedCurrencyJPA = dbService.update(setUpCurrencyJPA);
+        System.out.println(updatedCurrencyJPA);
+
+        // then
+        dbService.readAll().forEach(System.out::println);
+        assertThat(updatedCurrencyJPA.getId()).isEqualTo(oldId);
+        assertThat(updatedCurrencyJPA.getRate()).isGreaterThan(oldRate);
+        assertThat(currencyRepository.count()).isEqualTo(initialCount);
+        assertThat(dbService.read(updatedCurrencyJPA.getId()))
+                .isEqualToIgnoringGivenFields(setUpCurrencyJPA,"rate");
+//        assertThat(updatedCurrencyJPA).isEqualToIgnoringGivenFields(setUpCurrencyJPA,"rate");
+//        raised error
+//        org.assertj.core.util.introspection.IntrospectionError:
+//        Can't find any field or property with name '$$_hibernate_interceptor'.
+//        Error when introspecting properties was :
+//        - No getter for property '$$_hibernate_interceptor' in com.quid.currencyconverter.jpa.CurrencyJPA
+//        Error when introspecting fields was :
+//        - Unable to obtain the value of the field <'$$_hibernate_interceptor'> from <CurrencyJPA{id=120, fromCurrency='USD', toCurrency='AUD', rate=6.4300}>
+    }
+
+    @Test
+    public void shouldRead() {
+        CurrencyJPA currencyJPA = dbService.read(setUpCurrencyJPA.getId());
+        assertThat(currencyJPA).isNotNull();
+        assertThat(currencyJPA).hasNoNullFieldsOrProperties();
         System.out.println(currencyJPA);
-        System.out.println(currency);
-
-        dbService.delete(currencyJPA);
     }
 
     @Test
-    void shouldUpdate() {
-        CurrencyJPA oldCurrencyJPA = dbService.read(1L);
-        CurrencyJPA newCurrencyJPA = new CurrencyJPA(
-                oldCurrencyJPA.getId(), oldCurrencyJPA.getFromCurrency(),
-                oldCurrencyJPA.getToCurrency(), oldCurrencyJPA.getRate().add(new BigDecimal("0.1"))
-        );
-
-        dbService.update(newCurrencyJPA);
-
-        CurrencyJPA currencyJPA = dbService.read(1L);
-        assertEquals(currencyJPA, newCurrencyJPA);
-        assertNotEquals(currencyJPA, oldCurrencyJPA);
-
-        dbService.update(oldCurrencyJPA);
-        assertEquals(dbService.read(1L), oldCurrencyJPA);
-    }
-
-    @Test
-    void shouldRead() {
-        CurrencyJPA currencyJPA = dbService.read(4L);
-        assertNotNull(currencyJPA);
-        assertNotNull(currencyJPA.getFromCurrency());
-        assertNotNull(currencyJPA.getToCurrency());
-        assertNotNull(currencyJPA.getRate());
+    public void shouldReadByCurrencies() {
+        CurrencyJPA currencyJPA = dbService.readByCurrencies(EUR.toString(), BYN.toString());
+        assertThat(currencyJPA).isNotNull();
+        assertThat(currencyJPA).hasNoNullFieldsOrProperties();
         System.out.println(currencyJPA);
     }
 
     @Test
-    void shouldReadByCurrencies() {
-        CurrencyJPA currencyJPA = dbService.readByCurrencies("EUR", "BYN");
-        assertNotNull(currencyJPA);
-        assertNotNull(currencyJPA.getFromCurrency());
-        assertNotNull(currencyJPA.getToCurrency());
-        assertNotNull(currencyJPA.getRate());
-        System.out.println(currencyJPA);
-    }
-
-    @Test
-    void shouldReadAll() {
+    public void shouldReadAll() {
         List<CurrencyJPA> currencyJPAList = dbService.readAll();
-        assertTrue(currencyJPAList.size() > 0);
-        for (CurrencyJPA currency : currencyJPAList) {
-            System.out.println(currency);
-        }
+        assertThat(currencyJPAList).isNotEmpty();
+        currencyJPAList.forEach(System.out::println);
     }
 
-//    @org.junit.jupiter.api.Test
-//    void shutdown() {
-//    }
+    @Test
+    public void shouldDelete() {
+        //given
+        long initialCount = currencyRepository.count();
+        System.out.println(initialCount);
+        CurrencyJPA currencyJPA = dbService.read(setUpCurrencyJPA.getId());
+
+        // when
+        dbService.delete(currencyJPA);
+
+        // then
+        assertThat(currencyRepository.count()).isLessThan(initialCount);
+        CurrencyJPA deletedCurrencyJPA = dbService.read(setUpCurrencyJPA.getId());
+        System.out.println(deletedCurrencyJPA);
+    }
 }

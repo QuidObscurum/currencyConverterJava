@@ -1,5 +1,6 @@
 package com.quid.currencyconverter.service;
 
+import com.quid.currencyconverter.myutils.CurrencyCode;
 import com.quid.currencyconverter.myutils.InvalidInputException;
 
 import java.math.BigDecimal;
@@ -14,9 +15,6 @@ public class ConvertQuery {
     private CurrencyCode fromCurrency;
     private CurrencyCode toCurrency;
 
-    public enum CurrencyCode {
-        USD, BYN, EUR, RUB
-    }
     public String inputFormat = "10 " + CurrencyCode.BYN + " : " + CurrencyCode.USD;
     public List<CurrencyCode> allowedCurrenciesList = Collections.unmodifiableList(Arrays.asList(CurrencyCode.values()));
 
@@ -28,9 +26,9 @@ public class ConvertQuery {
                     "Got invalid query. Input format:\n" + query.inputFormat
             );
         }
-        String inputValue = args.get(0);
-        String fromCurrency = args.get(1).toUpperCase();
-        String toCurrency = args.get(3).toUpperCase();
+        String inputValue = args.get(0).trim();
+        String fromCurrency = args.get(1).trim().toUpperCase();
+        String toCurrency = args.get(3).trim().toUpperCase();
 
         try {
             query.setFromCurrency(CurrencyCode.valueOf(fromCurrency));

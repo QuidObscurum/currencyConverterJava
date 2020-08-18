@@ -2,9 +2,10 @@ package com.quid.currencyconverter.service;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.config.HibernateConfig;
-import static com.quid.currencyconverter.service.ConvertQuery.CurrencyCode;
-import static org.junit.jupiter.api.Assertions.*;
+import com.quid.currencyconverter.myutils.CurrencyCode;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import com.quid.currencyconverter.dto.ExchangeResultDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,27 +27,53 @@ class ConverterServiceTest {
 
     @Test
     void shouldConvert() {
-        String inputValue = "1000";
+        String inputValueString = "1000";
+        BigDecimal inputValueBD = new BigDecimal(inputValueString).setScale(4, RoundingMode.HALF_UP);
         List<List<String>> currencyPairs = getCurrencyPairs(
                 Arrays.asList(CurrencyCode.values())
         );
         for (List<String> nestedList : currencyPairs) {
             // Prepare args list
-            nestedList.add(0, inputValue);
+            nestedList.add(0, inputValueString);
             nestedList.add(2, ":");
             System.out.println(nestedList);
+
             // Get ConvertQuery obj out of args list
             ConvertQuery query = ConvertQuery.getQuery(nestedList);
-            // Check conversion is successful
+
+            // Get ExchangeResultDTO obj
+            ExchangeResultDTO resultDTO = new ExchangeResultDTO(
+                    inputValueBD,
+                    CurrencyCode.valueOf(nestedList.get(1)),
+                    CurrencyCode.valueOf(nestedList.get(3))
+            );
+
+            // Check conversion is successful for ConvertQuery obj
             BigDecimal converted = converter.convert(query);
             System.out.println(converted);
+
+            // Check conversion is successful for ConvertQuery obj
+            ExchangeResultDTO exchangeResultDTO = converter.convert(resultDTO);
+            System.out.println(exchangeResultDTO.getExchangeResultValue());
+
             System.out.println();
-            assertNotEquals(converted, new BigDecimal(inputValue));
+            assertThat(converted).isNotEqualTo(inputValueBD);
+            assertThat(exchangeResultDTO.getExchangeResultValue()).isEqualTo(converted);
         }
+
+        List<String> args = Arrays.asList(inputValueString, "BYN", ":", "BYN");
+        ConvertQuery query = ConvertQuery.getQuery(args);
+        ExchangeResultDTO resultDTO = new ExchangeResultDTO(
+                new BigDecimal(inputValueString),
+                CurrencyCode.valueOf(args.get(1)),
+                CurrencyCode.valueOf(args.get(3))
+        );
+        assertThat(converter.convert(query)).isEqualTo(inputValueBD);
+        assertThat(converter.convert(resultDTO).getExchangeResultValue()).isEqualTo(inputValueBD);
     }
 
     private List<List<String>> getCurrencyPairs(List<CurrencyCode> pool) {
-        // permutations(new ArrayList<>('A', 'B', 'C', 'D'))
+        // getCurrencyPairs(new ArrayList<>('A', 'B', 'C', 'D'))
         // --> [[AB], [AC], [AD], [BA], [BC], [BD], [CA], [CB], [CD], [DA], [DB], [DC]]
         List<List<String>> res = new ArrayList<>();
 

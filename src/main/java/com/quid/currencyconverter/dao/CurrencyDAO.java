@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-@Repository
+//@Repository
 @Transactional
 public class CurrencyDAO {
     private SessionFactory sessionFactory;
     private HibernateTemplate hibernateTemplate;
 
-    @Autowired
+//    @Autowired
     public CurrencyDAO(LocalSessionFactoryBean sessionFactoryBean) {
         this.sessionFactory = sessionFactoryBean.getObject();
         this.hibernateTemplate = new HibernateTemplate(this.sessionFactory);

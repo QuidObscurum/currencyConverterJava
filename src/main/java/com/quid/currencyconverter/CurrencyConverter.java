@@ -1,22 +1,24 @@
 package com.quid.currencyconverter;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
-import com.quid.currencyconverter.config.HibernateConfig;
 import com.quid.currencyconverter.myutils.Helper;
 import com.quid.currencyconverter.myutils.InvalidInputException;
 import com.quid.currencyconverter.service.ConvertQuery;
 import com.quid.currencyconverter.service.ConverterService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+@SpringBootApplication
 public class CurrencyConverter {
     public static void main (String[] args) {
+        SpringApplication.run(CurrencyConverter.class, args);
         Helper helper = new Helper();
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-        context.register(HibernateConfig.class);
         ConverterService converter = context.getBean("converter", ConverterService.class);
 //        System.out.println(Arrays.toString(context.getBeanDefinitionNames()));
 //        System.out.println(context.getBeanDefinitionCount());
@@ -52,6 +54,6 @@ public class CurrencyConverter {
     public static List<String> getUserInput() {
         Scanner sc = new Scanner(System.in);
         String query = sc.nextLine();
-        return Arrays.asList(query.split(" "));
+        return Arrays.asList(query.split("\\s+"));
     }
 }

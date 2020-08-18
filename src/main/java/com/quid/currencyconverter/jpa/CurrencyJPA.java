@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "banksells")
+@Table(name = "banksells_ii")
 public class CurrencyJPA implements Serializable {
     @Id
     @Column(name = "id")

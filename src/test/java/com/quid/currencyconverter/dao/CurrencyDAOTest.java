@@ -3,11 +3,9 @@ package com.quid.currencyconverter.dao;
 import com.quid.currencyconverter.config.ApplicationConfig;
 import com.quid.currencyconverter.config.HibernateConfig;
 import com.quid.currencyconverter.jpa.CurrencyJPA;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -16,20 +14,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Ignore
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes= {ApplicationConfig.class, HibernateConfig.class})
 class CurrencyDAOTest {
-    @Autowired
+//    @Autowired
     private CurrencyDAO currencyDAO;
-
-//    @BeforeEach
-//    void setUp() {
-//    }
-//
-//    @AfterEach
-//    void tearDown() {
-//    }
 
     @Test
     void shouldRead() {
