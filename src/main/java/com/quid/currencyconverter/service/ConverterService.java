@@ -41,6 +41,7 @@ public class ConverterService {
 
     public ExchangeResultDTO convert(ExchangeResultDTO query) {
         if (query.getToCurrency().equals(query.getFromCurrency())) {
+            query.setExchangeResultValue(query.getFromCurrencyValue());
             return query;
         }
         BigDecimal rate = getRate(query.getFromCurrency(), query.getToCurrency());

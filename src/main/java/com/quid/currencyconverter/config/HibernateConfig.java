@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
-//@EnableTransactionManagement
-
 // adding basePackages almost solved the problem of spring not creating repository bean, had to also change Bean names
 @EnableJpaRepositories(basePackages = "com.quid.currencyconverter.dao")
 public class HibernateConfig {
