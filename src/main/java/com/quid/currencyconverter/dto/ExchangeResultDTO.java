@@ -2,13 +2,23 @@ package com.quid.currencyconverter.dto;
 
 import com.quid.currencyconverter.myutils.CurrencyCode;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class ExchangeResultDTO {
+
+    @NotNull(message = "Value to be converted cannot be null")
+    @Positive
     private BigDecimal fromCurrencyValue;
+
     private BigDecimal exchangeResultValue;
+
+    @NotNull(message = "Currency code cannot be null or empty")
     private CurrencyCode fromCurrency;
+
+    @NotNull(message = "Currency code cannot be null or empty")
     private CurrencyCode toCurrency;
 
     public ExchangeResultDTO(BigDecimal fromCurrencyValue, CurrencyCode fromCurrency, CurrencyCode toCurrency, BigDecimal exchangeResultValue) {
@@ -39,7 +49,7 @@ public class ExchangeResultDTO {
     }
 
     public void setExchangeResultValue(BigDecimal exchangeResultValue) {
-        this.exchangeResultValue = exchangeResultValue;
+        this.exchangeResultValue = exchangeResultValue.setScale(4, RoundingMode.HALF_UP);
     }
 
     public CurrencyCode getFromCurrency() {
@@ -51,7 +61,7 @@ public class ExchangeResultDTO {
     }
 
     public void setFromCurrencyValue(BigDecimal fromCurrencyValue) {
-        this.fromCurrencyValue = fromCurrencyValue;
+        this.fromCurrencyValue = fromCurrencyValue.setScale(4, RoundingMode.HALF_UP);
     }
 
     public void setFromCurrency(CurrencyCode fromCurrency) {

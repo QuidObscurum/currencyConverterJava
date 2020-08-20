@@ -5,6 +5,7 @@ import com.quid.currencyconverter.dto.ExchangeResultDTO;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
+//import org.springframework.test.context.junit4.SpringRunner;
 
 //@RunWith(SpringRunner.class) // difference?
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,14 +30,12 @@ public class CurrencyControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-//    private RestTemplate restTemplate;
     private HttpHeaders headers;
     private String convertUrl;
     private JSONObject convertJsonRequest;
 
     @Before
     public void setUp() throws JSONException {
-//        restTemplate = new RestTemplate();
         headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -56,5 +55,41 @@ public class CurrencyControllerTest {
         ResponseEntity<ExchangeResultDTO> resultDTOResponseEntity = restTemplate.postForEntity(convertUrl, request, ExchangeResultDTO.class);
 //        System.out.println(resultDTO);
         System.out.println(resultDTOResponseEntity.getBody());
+    }
+
+    @Ignore
+    public void shouldReturnResponseWhenFieldError() {
+//        when "fromCurrencyValue" : -1000
+//        {
+//            "path": "/convert",
+//            "status": 400,
+//            "error": "Bad Request",
+//            "message": "Positive (fromCurrencyValue): must be greater than 0."
+//        }
+
+//        when no "fromCurrency": "BYN"
+//        {
+//            "path": "/convert",
+//            "status": 400,
+//            "error": "Bad Request",
+//            "message": "NotNull (fromCurrency): Currency code cannot be null or empty."
+//        }
+
+//        when "fromCurrencyValue" : -1000, no "fromCurrency": "BYN",
+//        {
+//            "path": "/convert",
+//            "status": 400,
+//            "error": "Bad Request",
+//            "message": "NotNull (fromCurrency): Currency code cannot be null or empty; Positive (fromCurrencyValue): must be greater than 0."
+//        }
+
+//        when "fromCurrencyValue" : -1000, "fromCurrency": "",
+//        {
+//            "timestamp": "2020-08-19T14:16:42.263+00:00",
+//                "status": 400,
+//                "error": "Bad Request",
+//                "message": "",
+//                "path": "/convert"
+//        }
     }
 }
