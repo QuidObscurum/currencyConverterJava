@@ -17,4 +17,6 @@ public interface CurrencyDBService {
 
     void delete(CurrencyJPA currencyJPA);
 
+    void deleteByToCurrency(String toCurrency);
+
 }

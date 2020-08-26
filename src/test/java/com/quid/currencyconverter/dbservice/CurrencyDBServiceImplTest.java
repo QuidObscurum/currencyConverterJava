@@ -37,7 +37,7 @@ public class CurrencyDBServiceImplTest {
 
     @After
     public void tearDown() {
-        currencyRepository.deleteByToCurrency("AUD");
+        currencyRepository.customDeleteByToCurrency("AUD");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CurrencyDBServiceImplTest {
         long initialCount = currencyRepository.count();
 
         // when
-        setUpCurrencyJPA.setRate(setUpCurrencyJPA.getRate().add(new BigDecimal("5")));
+        setUpCurrencyJPA.setRate(oldRate.add(new BigDecimal("5")));
         CurrencyJPA updatedCurrencyJPA = dbService.update(setUpCurrencyJPA);
         System.out.println(updatedCurrencyJPA);
 
@@ -123,6 +123,21 @@ public class CurrencyDBServiceImplTest {
 
         // when
         dbService.delete(currencyJPA);
+
+        // then
+        assertThat(currencyRepository.count()).isLessThan(initialCount);
+        CurrencyJPA deletedCurrencyJPA = dbService.read(setUpCurrencyJPA.getId());
+        System.out.println(deletedCurrencyJPA);
+    }
+
+    @Test
+    public void shouldDeleteByToCurrency() {
+        //given
+        long initialCount = currencyRepository.count();
+        System.out.println(initialCount);
+
+        // when
+        dbService.deleteByToCurrency(setUpCurrencyJPA.getToCurrency());
 
         // then
         assertThat(currencyRepository.count()).isLessThan(initialCount);

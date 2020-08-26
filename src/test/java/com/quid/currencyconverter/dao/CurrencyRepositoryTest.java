@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+//import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -30,10 +31,15 @@ public class CurrencyRepositoryTest {
 
     @Before
 //    @Rollback(value = false)
+//    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void setUp() {
-        setUpCurrencyJPA = currencyRepository.save(
-                new CurrencyJPA(USD.toString(), "AUD", new BigDecimal("1.4300"))
-        );
+//        for (int i = 0; i < 3; i++) {
+            setUpCurrencyJPA = currencyRepository.save(
+                    new CurrencyJPA(USD.toString(), "AUD", new BigDecimal("1.4300")
+//                            .add(new BigDecimal(i))
+                    )
+            );
+//        }
     }
 
     @Test
@@ -61,6 +67,7 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
+//    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public void shouldFindAll() {
         List<CurrencyJPA> all = currencyRepository.findAll();
         all.forEach(System.out::println);
@@ -69,6 +76,7 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
+//    @Transactional(readOnly = true)
     public void shouldFindById() {
         Optional<CurrencyJPA> currency = currencyRepository.findById(1L); // setUpCurrencyJPA.getId()
         assertThat(currency).isNotEmpty();
@@ -76,6 +84,7 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
+//    @Transactional(readOnly = true)
     public void shouldFindByFromCurrencyAndToCurrency(){
 //        Interestingly, seems to ignore case by default, so ("usd", "byn") would also work
         Optional<CurrencyJPA> optionalCurrencyJPA = currencyRepository
@@ -89,6 +98,7 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
+//    @Transactional(readOnly = true)
     public void shouldFindByFromCurrencyAndToCurrencyIgnoreCase(){
         Optional<CurrencyJPA> currency = currencyRepository.findByFromCurrencyIgnoreCaseAndToCurrencyIgnoreCase("usd", "BYn");
         assertThat(currency).containsInstanceOf(CurrencyJPA.class);
@@ -166,11 +176,21 @@ public class CurrencyRepositoryTest {
 
     @Test
     public void shouldDeleteByToCurrency() {
+//        Filters out relevant entities and deletes them one by one by "id"
         List<CurrencyJPA> all1 = currencyRepository.findAll();
         assertThat(all1).contains(setUpCurrencyJPA);
         currencyRepository.deleteByToCurrency(setUpCurrencyJPA.getToCurrency());
         List<CurrencyJPA> all2 = currencyRepository.findAll();
         assertThat(all2).hasSizeLessThan(all1.size());
         assertThat(all2).doesNotContain(setUpCurrencyJPA);
+    }
+
+    @Test
+    public void shouldCustomDeleteByToCurrency() {
+//        Deletes all records that conform with the filter at once
+        long initialCount = currencyRepository.count();
+        currencyRepository.customDeleteByToCurrency(setUpCurrencyJPA.getToCurrency());
+        assertThat(currencyRepository.count()).isLessThan(initialCount);
+        assertThat(currencyRepository.findAll()).doesNotContain(setUpCurrencyJPA);
     }
 }
