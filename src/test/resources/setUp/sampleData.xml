@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--<!DOCTYPE dataset SYSTEM "my-dataset.dtd">-->
+<!-- DTD declared in an external file-->
+<!-- DTD can be declared inside the XML file, wrapped inside the <!DOCTYPE> definition-->
+<dataset>
+    <banksells_ii id="1" fromCurrency="RUB" toCurrency="BYN" rate="0.0352"/>
+    <banksells_ii id="2" fromCurrency="USD" toCurrency="BYN" rate="2.705"/>
+    <banksells_ii id="3" fromCurrency="USD" toCurrency="RUB" rate="75.5"/>
+    <banksells_ii id="4" fromCurrency="EUR" toCurrency="BYN" rate="3.2"/>
+    <banksells_ii id="5" fromCurrency="EUR" toCurrency="USD" rate="1.175"/>
+    <banksells_ii id="6" fromCurrency="EUR" toCurrency="RUB" rate="89.2"/>
+</dataset>
