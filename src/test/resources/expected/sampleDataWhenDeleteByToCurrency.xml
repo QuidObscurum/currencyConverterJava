@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dataset>
+    <banksells_ii id="1" fromCurrency="RUB" toCurrency="BYN" rate="0.0352"/>
+    <banksells_ii id="2" fromCurrency="USD" toCurrency="BYN" rate="2.705"/>
+    <banksells_ii id="4" fromCurrency="EUR" toCurrency="BYN" rate="3.2"/>
+    <banksells_ii id="5" fromCurrency="EUR" toCurrency="USD" rate="1.175"/>
+</dataset>

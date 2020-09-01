@@ -93,6 +93,16 @@ public class CurrencyController {
             this.error = error;
             this.message = message;
         }
+
+        @Override
+        public String toString() {
+            return "MyErrorResponse{" +
+                    "path='" + path + '\'' +
+                    ", status=" + status +
+                    ", error='" + error + '\'' +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
     }
 
 }
