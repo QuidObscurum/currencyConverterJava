@@ -3,8 +3,8 @@ package com.quid.currencyconverter.dao;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.quid.currencyconverter.config.ApplicationConfig;
-import com.quid.currencyconverter.config.HibernateConfig;
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
+import com.quid.currencyconverter.testConfig.HibernateConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static com.quid.currencyconverter.myutils.CurrencyCode.BYN;
-import static com.quid.currencyconverter.myutils.CurrencyCode.USD;
+import static com.quid.currencyconverter.domain.enums.CurrencyCode.BYN;
+import static com.quid.currencyconverter.domain.enums.CurrencyCode.USD;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

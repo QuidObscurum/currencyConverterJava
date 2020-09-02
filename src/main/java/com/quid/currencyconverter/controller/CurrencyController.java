@@ -1,8 +1,8 @@
 package com.quid.currencyconverter.controller;
 
 import com.quid.currencyconverter.dbservice.CurrencyDBServiceImpl;
-import com.quid.currencyconverter.dto.ExchangeResultDTO;
-import com.quid.currencyconverter.myutils.CurrencyCode;
+import com.quid.currencyconverter.domain.dto.ExchangeResultDTO;
+import com.quid.currencyconverter.domain.enums.CurrencyCode;
 import com.quid.currencyconverter.service.ConverterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

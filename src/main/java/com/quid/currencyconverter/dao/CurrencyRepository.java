@@ -1,6 +1,6 @@
 package com.quid.currencyconverter.dao;
 
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

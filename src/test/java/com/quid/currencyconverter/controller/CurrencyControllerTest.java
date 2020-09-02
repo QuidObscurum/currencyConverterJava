@@ -1,8 +1,8 @@
 package com.quid.currencyconverter.controller;
 
 import com.quid.currencyconverter.CurrencyConverter;
-import com.quid.currencyconverter.dto.ExchangeResultDTO;
-import com.quid.currencyconverter.myutils.CurrencyCode;
+import com.quid.currencyconverter.domain.dto.ExchangeResultDTO;
+import com.quid.currencyconverter.domain.enums.CurrencyCode;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;

@@ -1,6 +1,6 @@
 package com.quid.currencyconverter.dbservice;
 
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
 
 import java.util.List;
 

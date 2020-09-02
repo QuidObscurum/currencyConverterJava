@@ -1,22 +1,21 @@
 package com.quid.currencyconverter.dao;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
-import com.quid.currencyconverter.config.HibernateConfig;
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
+import com.quid.currencyconverter.testConfig.HibernateConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static com.quid.currencyconverter.myutils.CurrencyCode.*;
+import static com.quid.currencyconverter.domain.enums.CurrencyCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -30,8 +29,6 @@ public class CurrencyRepositoryTest {
     CurrencyJPA setUpCurrencyJPA;
 
     @Before
-//    @Rollback(value = false)
-//    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void setUp() {
 //        for (int i = 0; i < 3; i++) {
             setUpCurrencyJPA = currencyRepository.save(
@@ -67,7 +64,6 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
-//    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public void shouldFindAll() {
         List<CurrencyJPA> all = currencyRepository.findAll();
         all.forEach(System.out::println);
@@ -76,7 +72,6 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
-//    @Transactional(readOnly = true)
     public void shouldFindById() {
         Optional<CurrencyJPA> currency = currencyRepository.findById(1L); // setUpCurrencyJPA.getId()
         assertThat(currency).isNotEmpty();
@@ -84,7 +79,6 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
-//    @Transactional(readOnly = true)
     public void shouldFindByFromCurrencyAndToCurrency(){
 //        Interestingly, seems to ignore case by default, so ("usd", "byn") would also work
         Optional<CurrencyJPA> optionalCurrencyJPA = currencyRepository
@@ -98,7 +92,6 @@ public class CurrencyRepositoryTest {
     }
 
     @Test
-//    @Transactional(readOnly = true)
     public void shouldFindByFromCurrencyAndToCurrencyIgnoreCase(){
         Optional<CurrencyJPA> currency = currencyRepository.findByFromCurrencyIgnoreCaseAndToCurrencyIgnoreCase("usd", "BYn");
         assertThat(currency).containsInstanceOf(CurrencyJPA.class);

@@ -1,4 +1,4 @@
-package com.quid.currencyconverter.jpa;
+package com.quid.currencyconverter.domain.jpa;
 
 import javax.persistence.*;
 import java.io.Serializable;

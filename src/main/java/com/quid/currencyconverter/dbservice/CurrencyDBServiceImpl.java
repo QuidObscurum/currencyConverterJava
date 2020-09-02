@@ -1,7 +1,7 @@
 package com.quid.currencyconverter.dbservice;
 
 import com.quid.currencyconverter.dao.CurrencyRepository;
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

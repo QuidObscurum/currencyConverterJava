@@ -1,16 +1,13 @@
 package com.quid.currencyconverter.dao;
 
-import com.quid.currencyconverter.config.HibernateConfig;
 import org.dbunit.DataSourceDatabaseTester;
 import org.dbunit.DefaultPrepAndExpectedTestCase;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.PrepAndExpectedTestCase;
-import org.dbunit.operation.DatabaseOperation;
 import org.dbunit.util.fileloader.DataFileLoader;
 import org.dbunit.util.fileloader.FlatXmlDataFileLoader;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,7 +15,7 @@ import javax.sql.DataSource;
 
 @TestConfiguration
 @Validated
-public class DbUnitConfiguration extends HibernateConfig
+public class DbUnitConfiguration
 {
     /**
      * Extend DefaultPrepAndExpectedTestCase to customize DatabaseConfig.

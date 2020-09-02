@@ -1,6 +1,6 @@
-package com.quid.currencyconverter.dto;
+package com.quid.currencyconverter.domain.dto;
 
-import com.quid.currencyconverter.myutils.CurrencyCode;
+import com.quid.currencyconverter.domain.enums.CurrencyCode;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -34,7 +34,7 @@ public class ExchangeResultDTO {
 
     //default constructor to solve
 //    com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance of
-//    `com.quid.currencyconverter.dto.ExchangeResultDTO` (no Creators, like default constructor, exist):
+//    `com.quid.currencyconverter.domain.dto.ExchangeResultDTO` (no Creators, like default constructor, exist):
 //    cannot deserialize from Object value (no delegate- or property-based Creator)
     public ExchangeResultDTO() {
         super();

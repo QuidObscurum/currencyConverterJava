@@ -1,9 +1,9 @@
 package com.quid.currencyconverter.dbservice;
 
 import com.quid.currencyconverter.config.ApplicationConfig;
-import com.quid.currencyconverter.config.HibernateConfig;
 import com.quid.currencyconverter.dao.CurrencyRepository;
-import com.quid.currencyconverter.jpa.CurrencyJPA;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
+import com.quid.currencyconverter.testConfig.HibernateConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static com.quid.currencyconverter.myutils.CurrencyCode.*;
+import static com.quid.currencyconverter.domain.enums.CurrencyCode.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= {ApplicationConfig.class, HibernateConfig.class})
+@ContextConfiguration(classes = {ApplicationConfig.class, HibernateConfig.class})
 public class CurrencyDBServiceImplTest {
     @Autowired
     private CurrencyDBService dbService;
@@ -86,7 +86,7 @@ public class CurrencyDBServiceImplTest {
 //        org.assertj.core.util.introspection.IntrospectionError:
 //        Can't find any field or property with name '$$_hibernate_interceptor'.
 //        Error when introspecting properties was :
-//        - No getter for property '$$_hibernate_interceptor' in com.quid.currencyconverter.jpa.CurrencyJPA
+//        - No getter for property '$$_hibernate_interceptor' in com.quid.currencyconverter.domain.jpa.CurrencyJPA
 //        Error when introspecting fields was :
 //        - Unable to obtain the value of the field <'$$_hibernate_interceptor'> from <CurrencyJPA{id=120, fromCurrency='USD', toCurrency='AUD', rate=6.4300}>
     }

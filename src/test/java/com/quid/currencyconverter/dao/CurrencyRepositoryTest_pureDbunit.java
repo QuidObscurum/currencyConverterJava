@@ -1,7 +1,9 @@
 package com.quid.currencyconverter.dao;
 
-import com.quid.currencyconverter.jpa.CurrencyJPA;
-import com.quid.currencyconverter.myutils.CurrencyCode;
+import com.quid.currencyconverter.config.ApplicationConfig;
+import com.quid.currencyconverter.domain.enums.CurrencyCode;
+import com.quid.currencyconverter.domain.jpa.CurrencyJPA;
+import com.quid.currencyconverter.testConfig.HibernateConfig;
 import org.dbunit.PrepAndExpectedTestCase;
 import org.dbunit.VerifyTableDefinition;
 import org.junit.Test;
@@ -15,7 +17,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ContextConfiguration(classes = {DbUnitConfiguration.class})
+@ContextConfiguration(classes = {DbUnitConfiguration.class, HibernateConfig.class, ApplicationConfig.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 public class CurrencyRepositoryTest_pureDbunit {
