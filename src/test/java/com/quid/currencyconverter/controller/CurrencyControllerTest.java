@@ -2,6 +2,7 @@ package com.quid.currencyconverter.controller;
 
 import com.quid.currencyconverter.CurrencyConverter;
 import com.quid.currencyconverter.domain.dto.ExchangeResultDTO;
+import com.quid.currencyconverter.domain.dto.MyErrorResponse;
 import com.quid.currencyconverter.domain.enums.CurrencyCode;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,8 +82,8 @@ public class CurrencyControllerTest {
         }
         System.out.println(convertJsonRequest);
         HttpEntity<String> request = new HttpEntity<>(convertJsonRequest.toString(), headers);
-        ResponseEntity<CurrencyController.MyErrorResponse> errorResponseEntity = restTemplate
-                .postForEntity(convertUrl, request, CurrencyController.MyErrorResponse.class);
+        ResponseEntity<MyErrorResponse> errorResponseEntity = restTemplate
+                .postForEntity(convertUrl, request, MyErrorResponse.class);
 
         System.out.println(errorResponseEntity.getBody());
         assertErrorResponse(errorResponseEntity, "Positive (fromCurrencyValue): must be greater than 0.");
@@ -104,7 +105,7 @@ public class CurrencyControllerTest {
         System.out.println(convertJsonRequest);
         request = new HttpEntity<>(convertJsonRequest.toString(), headers);
         errorResponseEntity = restTemplate
-                .postForEntity(convertUrl, request, CurrencyController.MyErrorResponse.class);
+                .postForEntity(convertUrl, request, MyErrorResponse.class);
         System.out.println(errorResponseEntity.getBody());
         assertErrorResponse(errorResponseEntity, "NotNull (fromCurrency): Currency code cannot be null or empty.");
 
@@ -127,7 +128,7 @@ public class CurrencyControllerTest {
     }
 
     private void assertErrorResponse(
-            ResponseEntity<CurrencyController.MyErrorResponse> errorResponseEntity,
+            ResponseEntity<MyErrorResponse> errorResponseEntity,
             String customMsg
     ) {
         assertThat(errorResponseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
